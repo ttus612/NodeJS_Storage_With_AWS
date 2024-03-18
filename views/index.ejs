@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="content">
+        <h3>Quản lý xe</h3>
+        <div class="nhapdl">
+            <!-- Tạo form nhập dữ liệu -->
+            <form id="carForm" action="/save" method="post" enctype="multipart/form-data">
+                <input type="text" name="maXe" id="maXe" placeholder="Nhập mã xe">
+                <input type="text" name="dongXe" id="dongXe" placeholder="Nhập tên dòng xe">
+                <input type="text" name="loaiXe" id="loaiXe" placeholder="Nhập loại xe">
+                <input type="number" name="gia" id="gia" placeholder="Nhập giá">
+                <input type="file" name="image" id="image" accept="image/*">
+                <button type="submit">Gửi</button>
+            </form>
+        </div>
+        <div class="hienthi_xoa">
+             <!-- Hiển thị dữ liệu -->
+            <form action="/delete" method="post">
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <td>Mã xe</td>
+                            <td>Dòng xe</td>
+                            <td>Loại xe</td>
+                            <td>Giá</td>
+                            <td>Hình ảnh</td>
+                            <td>Xóa</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% courses.forEach(item=> { %>
+                            <tr>
+                                <td>
+                                    <%= item.maXe %>
+                                </td>
+                                <td>
+                                    <%= item.dongXe %>
+                                </td>
+                                <td>
+                                    <%= item.loaiXe %>
+                                </td>
+                                <td>
+                                    <%= item.gia %>
+                                </td>
+                                <td>
+                                    <img src="<%= item.image %>" alt="" width="48" height="48">
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="<%= item.maXe %>" value="<%= item.maXe %>">
+                                </td>
+                            </tr>
+                            <% }) %>
+
+                    </tbody>
+                </table>
+                <button type="submit">Xóa</button>
+            </form> 
+        </div>
+    </div>
+</body>
+
+<script>
+    document.getElementById('carForm').addEventListener('submit', function (event) {
+        // Lấy giá trị của các trường input
+        var maXeValue = document.getElementById('maXe').value.trim();
+        var dongXeValue = document.getElementById('dongXe').value.trim();
+        var loaiXeValue = document.getElementById('loaiXe').value.trim();
+        var giaValue = document.getElementById('gia').value.trim();
+        // var emailValue = document.getElementById('email').value.trim();
+
+        // Biểu thức chính quy để kiểm tra email
+        // var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        // || !emailPattern.test(emailValue)
+
+        // Kiểm tra các trường không được rỗng, giá trị giá lớn hơn 0 và email hợp lệ
+        if (maXeValue === '' || dongXeValue === '' || loaiXeValue === '' || giaValue === '' || parseInt(giaValue) <= 0) {
+            // Ngăn chặn việc gửi biểu mẫu nếu có lỗi
+            event.preventDefault();
+            // Thông báo lỗi cho người dùng
+            alert('Vui lòng điền đầy đủ thông tin, giá trị giá phải lớn hơn 0');
+        }
+    });
+</script>
+
+</html>
